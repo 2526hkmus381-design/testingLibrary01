@@ -1,0 +1,14 @@
+{
+    "name": "lib-test",
+    "description": "lib-test",
+    "author": "", 
+    "version": "0.0.1",
+    "dependencies": {
+        "node": "*",
+        "express": "*"
+    },
+    "engine": "*",
+    "scripts": {
+        "start": "node server"
+    }
+}
