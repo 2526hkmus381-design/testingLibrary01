@@ -7,6 +7,7 @@ const path = require('path')
 const mongoose = require('mongoose')
 const app = express()
 const port = process.env.PORT || 8099
+let db; ///NEW
 
 app.use(express.static(path.join(__dirname, '1')));
 
@@ -14,6 +15,8 @@ app.use(express.static(path.join(__dirname, '1')));
 mongoose.connect(uri)
   .then(() => console.log("Connected to MongoDB Atlas"))
   .catch((err) => console.error("Error connecting to MongoDB Atlas:", err));
+
+
 
 // User Schema
 const userSchema = new mongoose.Schema({
@@ -89,8 +92,25 @@ app.get('/', (req, res) => {
 });
 
 // Server login page
-app.get('/login', (req, res) => {
-    res.sendFile(path.join(__dirname, '1', 'login.html'));
+app.post('/login', async (req, res) => {
+  const{username, password}= req.body;
+  if(!db){
+    return res.status(500).send("Database not connected");
+  }
+
+  try{
+    //const collection = db.Collection(userCollection);
+    const user = await User.findOne({ username, password });
+    if(user && user.role=="user"){
+      res.redirect("/user-dashboard.html");
+    }else {
+      res.send("Invalid username or password. <a href="/">Try again</a>');");
+    }
+  
+  }catch (err){
+    console.error("Error querying database:", err);
+    res.status(500).send('Server error');
+  }
 });
 
 // Server user dashboard
