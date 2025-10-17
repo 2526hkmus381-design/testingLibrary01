@@ -87,8 +87,8 @@ async function initializeUsers() {
 //});
 
 // Server login page
-app.post('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '1', 'login.html'));
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '1', 'user-dashboard.html'));
 });
 
 // Server login page
