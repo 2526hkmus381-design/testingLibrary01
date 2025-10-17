@@ -87,7 +87,7 @@ app.get('/', (req, res) => {
 });
 
 // Server login page
-app.get('/', (req, res) => {
+app.post('/', (req, res) => {
   res.sendFile(path.join(__dirname, '1', 'login.html'));
 });
 
