@@ -82,9 +82,9 @@ async function initializeUsers() {
 }
 
 // Server main page
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '1', 'index.html'));
-});
+//app.get('/', (req, res) => {
+//    res.sendFile(path.join(__dirname, '1', 'index.html'));
+//});
 
 // Server login page
 app.post('/', (req, res) => {
