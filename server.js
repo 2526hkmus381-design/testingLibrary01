@@ -12,6 +12,9 @@ let db; ///NEW
 
 app.use(express.static(path.join(__dirname, '1')));
 
+app.use(bodyParser.urlencoded({ extended: true }));  // for form data
+app.use(bodyParser.json());
+
 // Connect to MongoDB
 mongoose.connect(uri)
   .then(() => console.log("Connected to MongoDB Atlas"))
