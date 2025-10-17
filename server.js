@@ -106,7 +106,8 @@ app.post('/login', async (req, res) => {
     //const collection = db.Collection(userCollection);
     const user = await User.findOne({ username, password });
     if(user && user.role=="user"){
-      res.redirect("/user-dashboard.html");
+      //res.redirect("/user-dashboard.html");
+      res.sendFile(path.join(__dirname, '1', 'user-dashboard.html'));
     }else {
       res.send("Invalid username or password. <a href="/">Try again</a>');");
     }
