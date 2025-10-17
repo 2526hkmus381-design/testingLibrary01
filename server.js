@@ -1,4 +1,4 @@
-const uri = "mongodb+srv://admin:admin@cluster0.nuoxsbu.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const uri = "mongodb+srv://renderDeploy:renderDeploy@cluster0.nuoxsbu.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 const express = require('express');
 //const client = new MongoClient(uri);
 const dbName ="testingLibrary";
