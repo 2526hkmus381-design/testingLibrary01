@@ -91,8 +91,18 @@
         <input type="password" class="input-field" placeholder="Enter your password">
         <button class="login-btn">Log In</button>
         
+        <form action="/login" method="POST">
+            <label for="username">Username:</label>
+            <input type="text" class="input-field" id="username" name="username" placeholder="Enter your account ID" required><br><br>
+            
+            <label for="password">Password:</label>
+            <input type="password" class="input-field" placeholder="Enter your password" id="password" name="password" required><br><br>
+            
+            <button type="submit">Login</button>
+        </form>
         
         
     </div>
 </body>
+
 </html>
