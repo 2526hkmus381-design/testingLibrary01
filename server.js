@@ -87,12 +87,12 @@ async function initializeUsers() {
 //});
 
 // Server login page
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '1', 'user-dashboard.html'));
-});
+//app.get('/', (req, res) => {
+ // res.sendFile(path.join(__dirname, '1', 'user-dashboard.html'));
+//});
 
 // Server login page
-app.post('/login', async (req, res) => {
+app.post('/', async (req, res) => {
   const{username, password}= req.body;
   if(!db){
     return res.status(500).send("Database not connected");
