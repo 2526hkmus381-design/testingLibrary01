@@ -6,7 +6,7 @@
     "dependencies": {
         "node": "*",
         "express": "*",
-        "mongodb":"6.9.0"
+        "mongoose":"8.19.1"
     },
     "engine": "*",
     "scripts": {
