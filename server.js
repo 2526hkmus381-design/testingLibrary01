@@ -98,9 +98,9 @@ async function initializeUsers() {
 // Server login page
 app.post('/login', async (req, res) => {
   const{username, password}= req.body;
-  if(!db){
-    return res.status(500).send("Database not connected");
-  }
+//  if(!db){
+ //   return res.status(500).send("Database not connected");
+ // }
 
   try{
     //const collection = db.Collection(userCollection);
