@@ -105,8 +105,9 @@ app.post('/login', async (req, res) => {
   console.log("The username is "+ username);
   console.log("the password is "+password);
   try {
-    await console.log(User.findOne({}));
+    //await console.log(User.findOne({}));
     const user = await User.findOne({ username });
+    console.log(user.username)
     if (!user) {
       return res.status(401).send('Invalid username or password. <a href="/">Try again</a>');
     }
