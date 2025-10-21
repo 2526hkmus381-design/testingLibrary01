@@ -2,7 +2,7 @@ const uri = "mongodb+srv://renderDeploy:renderDeploy@cluster0.nuoxsbu.mongodb.ne
 const express = require('express');
 const bodyParser = require('body-parser');
 //const client = new MongoClient(uri);
-const dbName ="testingLibrary";
+
 //const userCollection = "userCollection";
 const path = require('path');
 const mongoose = require('mongoose');
@@ -10,10 +10,12 @@ const app = express();
 const port = process.env.PORT || 8099;
 let db; ///NEW
 
+app.set('view engine','ejs');
 app.use(express.static(path.join(__dirname, '1')));
 
 app.use(bodyParser.urlencoded({ extended: true }));  // for form data
 app.use(bodyParser.json());
+
 
 // Connect to MongoDB
 mongoose.connect(uri,{
@@ -142,7 +144,14 @@ app.post('/login', async (req, res) => {
 
 // Server user dashboard
 app.get('/user-dashboard', (req, res) => {
-    res.sendFile(path.join(__dirname, '1', 'user-dashboard.html'));
+    try {
+    const discoverBooks = await Book.find().limit(5); // Limit to 5 books
+    res.render('user-dashboard', { discoverBooks }); // Pass books to EJS template
+  } catch (err) {
+    console.error('Error fetching books:', err);
+    res.status(500).send('Server error');
+  }
+    //res.sendFile(path.join(__dirname, '1', 'user-dashboard.html'));
 });
 
 // Server admin dashboard
