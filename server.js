@@ -30,7 +30,7 @@ const userSchema = new mongoose.Schema({
     name: String
 });
 
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model('userCollection', userSchema);
 
 // Book Schema
 const bookSchema = new mongoose.Schema({
