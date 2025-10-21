@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 
 // Connect to MongoDB
 mongoose.connect(uri,{
-      dbName:"testingLibrary"
+      dbName:"test"
     }
                  )
   .then(() => console.log("Connected to MongoDB Atlas"))
@@ -34,7 +34,7 @@ const userSchema = new mongoose.Schema({
     name: String
 });
 
-const User = mongoose.model('userCollection', userSchema);
+const User = mongoose.model('users', userSchema);
 
 // Book Schema
 const bookSchema = new mongoose.Schema({
