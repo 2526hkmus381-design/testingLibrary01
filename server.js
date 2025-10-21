@@ -89,7 +89,7 @@ async function printAllUser() {
   try{
     const documents = await User.find({});
     console.log("All the documents in the userCollection: ");
-    User.forEach(doc => {
+    documents.forEach(doc => {
       console.log(doc.toJSON());
     });
   } catch (error) {
