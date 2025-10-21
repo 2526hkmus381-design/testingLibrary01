@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Books</title>
+    <style>
+        body { 
+            margin: 0; 
+            padding: 20px; 
+            font-family: Arial, sans-serif; 
+            background-color: #fffacd; 
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            gap: 20px;
+        }
+        h1 { color: #333; }
+        img { max-width: 100%; }
+        
+        .block {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        
+        .top {
+            /* Top block styles */
+        }
+        
+        .bottom {
+            margin-top: auto;
+        }
+        
+        /* Header styles */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .header-title {
+            font-weight: bold;
+            color: black;
+            margin: 0;
+            font-size: 1.5em;
+        }
+        
+        .see-more-btn {
+            background-color: #deecfe;
+            color: #7791c4;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        
+        /* Row of 4 blocks */
+        .books-row {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap; /* For responsiveness */
+        }
+        
+        .book-item {
+            flex: 1;
+            min-width: 200px; /* Minimum width for smaller screens */
+            display: flex;
+            flex-direction: column;
+            
+        }
+        
+        .book-image-container {
+            position: relative;
+            width: 90%;
+            
+            background-color: #ccc; /* Placeholder dominant color; in a real scenario, compute from image */
+            margin-bottom: 10px;
+            align-self: center; /* Centers the 90% width rectangle */
+            border-radius: 1px; /* Optional: slight rounding */
+            overflow: hidden; /* Ensures image fits nicely */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            aspect-ratio: 0.8;
+           
+        }
+        
+        .book-image-container img {
+            max-width: 80%; /* Scales image to fit inside without distorting the container fully */
+            max-height: 80%;
+            object-fit: contain;
+            box-shadow: 0 4px 5px rgba(0, 0, 0, .15),0 10px 10px rgba(0, 0, 0, .15);
+            
+        }
+        
+        .book-details {
+            display: flex;
+            flex-direction: column;
+            height: auto; /* Occupies remaining space */
+        }
+        
+        .book-name {
+            font-weight: bold;
+            margin: 0 0 5px 0;
+            padding: 0 0 0 11px;
+        }
+        
+        .book-author {
+            margin: 0;
+            color: #555;
+            padding: 0 0 0 11px;
+        }
+    </style>
+</head>
+<body>
+    <div class="block top">
+        <div class="header">
+            <h2 class="header-title">Recommend</h2>
+            <button class="see-more-btn">see more</button>
+        </div>
+        
+        <div class="books-row">
+            <div class="book-item">
+                <div class="book-image-container" style="background-color: #fffff9">
+                    <img src="https://m.media-amazon.com/images/I/81kg51XRc1L._SL1500_.jpg" alt="Book 1">
+                </div>
+                <div class="book-details">
+                    <p class="book-name">Atomic Habit</p>
+                    <p class="book-author">James Clear</p>
+                </div>
+            </div>
+            
+            <div class="book-item">
+                <div class="book-image-container" style="background-color: #c54848">
+                    <img src="https://m.media-amazon.com/images/I/81PPq8CP4sL._SY466_.jpg" alt="Book 2">
+                </div>
+                <div class="book-details">
+                    <p class="book-name">Never Split the Difference</p>
+                    <p class="book-author">Chris Voss</p>
+                </div>
+            </div>
+            <div class="book-item">
+                <div class="book-image-container" style="background-color: #c54848">
+                    <img src="https://m.media-amazon.com/images/I/81PPq8CP4sL._SY466_.jpg" alt="Book 2">
+                </div>
+                <div class="book-details">
+                    <p class="book-name">Never Split the Difference</p>
+                    <p class="book-author">Chris Voss</p>
+                </div>
+            </div>
+
+            <div class="book-item">
+                <div class="book-image-container" style="background-color: #c54848">
+                    <img src="https://m.media-amazon.com/images/I/81PPq8CP4sL._SY466_.jpg" alt="Book 2">
+                </div>
+                <div class="book-details">
+                    <p class="book-name">Never Split the Difference</p>
+                    <p class="book-author">Chris Voss</p>
+                </div>
+            </div>
+            
+            <div class="book-item">
+                <div class="book-image-container" style="background-color: #your-dominant-color-here;">
+                    <img src="https://example.com/book3-image.jpg" alt="Book 3">
+                </div>
+                <div class="book-details">
+                    <p class="book-name">Book name here</p>
+                    <p class="book-author">author here</p>
+                </div>
+            </div>
+            
+            <div class="book-item">
+                <div class="book-image-container" style="background-color: #your-dominant-color-here;">
+                    <img src="https://example.com/book4-image.jpg" alt="Book 4">
+                </div>
+                <div class="book-details">
+                    <p class="book-name">Book name here</p>
+                    <p class="book-author">author here</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="block bottom">
+        <!-- Add bottom content here -->
+    </div>
+</body>
+</html>
