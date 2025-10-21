@@ -91,7 +91,7 @@ async function initializeUsers() {
 
 async function printAllUser() {
   try{
-    const documents = await mongoose.db('testingLibrary').find({});
+    const documents = await User.find({});
     console.log("All the documents in the userCollection: ");
     documents.forEach(doc => {
       console.log(doc.toJSON());
