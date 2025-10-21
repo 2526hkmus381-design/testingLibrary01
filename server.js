@@ -22,6 +22,7 @@ mongoose.connect(uri)
 
 
 
+
 // User Schema
 const userSchema = new mongoose.Schema({
     username: String,
@@ -87,7 +88,7 @@ async function initializeUsers() {
 
 async function printAllUser() {
   try{
-    const documents = await User.find({});
+    const documents = await mongoose.db('testingLibrary').find({});
     console.log("All the documents in the userCollection: ");
     documents.forEach(doc => {
       console.log(doc.toJSON());
