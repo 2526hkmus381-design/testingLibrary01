@@ -16,7 +16,10 @@ app.use(bodyParser.urlencoded({ extended: true }));  // for form data
 app.use(bodyParser.json());
 
 // Connect to MongoDB
-mongoose.connect(uri)
+mongoose.connect(uri, , {
+      dbName="testingLibrary"
+    }
+                 )
   .then(() => console.log("Connected to MongoDB Atlas"))
   .catch((err) => console.error("Error connecting to MongoDB Atlas:", err));
 
