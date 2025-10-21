@@ -130,8 +130,8 @@ app.post('/login', async (req, res) => {
       return res.status(401).send('Invalid username or password. <a href="/">Try again</a>');
     }
     
-    if (user.role === 'librarian') {
-      return res.redirect('/librarian-dashboard');
+    if (user.role === 'admin') {
+      return res.redirect('/admin-dashboard');
     }
     return res.redirect('/user-dashboard');
   } catch (err) {
@@ -147,7 +147,7 @@ app.get('/user-dashboard', (req, res) => {
 
 // Server admin dashboard
 app.get('/librarian-dashboard', (req, res) => {
-    res.sendFile(path.join(__dirname, '1', 'librarian-dashboard.html'));
+    res.sendFile(path.join(__dirname, '1', 'admin-dashboard.html'));
 });
 
 app.listen(port, () => {
