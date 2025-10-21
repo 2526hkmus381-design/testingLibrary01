@@ -96,41 +96,27 @@ async function initializeUsers() {
 //});
 
 // Server login page
-app.get('/', async (req, res) => {
-  //const{username, password}= req.body;
-//  if(!db){
- //   return res.status(500).send("Database not connected");
- // }
-
-  try{
-    //const collection = db.Collection(userCollection);
-    res.sendFile(path.join(__dirname, '1', 'user-dashboard.html'));
-  
-  }catch (err){
-    console.error("Error querying database:", err);
-    res.status(500).send('Server error');
-  }
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 app.post('/login', async (req, res) => {
-  const{username, password}= req.body;
-//  if(!db){
- //   return res.status(500).send("Database not connected");
- // }
-
-  try{
-    //const collection = db.Collection(userCollection);
-    const user = await User.findOne({ username, password });
-    if(user && user.role=="user"){
-      //res.redirect("/user-dashboard.html");
-      res.send('You are a user');
-      //res.sendFile(path.join(__dirname, '1', 'user-dashboard.html'));
-    }else {
-      res.send("Invalid username or password. <a href="/">Try again</a>');");
+  const { username, password } = req.body;
+  try {
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(401).send('Invalid username or password. <a href="/">Try again</a>');
     }
-  
-  }catch (err){
-    console.error("Error querying database:", err);
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(401).send('Invalid username or password. <a href="/">Try again</a>');
+    }
+    if (user.role === 'admin') {
+      return res.redirect('/admin-dashboard');
+    }
+    return res.redirect('/user-dashboard');
+  } catch (err) {
+    console.error('Error during login:', err);
     res.status(500).send('Server error');
   }
 });
