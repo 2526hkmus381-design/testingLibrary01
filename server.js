@@ -96,22 +96,15 @@ async function initializeUsers() {
 //});
 
 // Server login page
-app.post('/', async (req, res) => {
-  const{username, password}= req.body;
+app.get('/', async (req, res) => {
+  //const{username, password}= req.body;
 //  if(!db){
  //   return res.status(500).send("Database not connected");
  // }
 
   try{
     //const collection = db.Collection(userCollection);
-    const user = await User.findOne({ username, password });
-    if(user && user.role=="user"){
-      //res.redirect("/user-dashboard.html");
-     // res.sendFile(path.join(__dirname, '1', 'user-dashboard.html'));
-      res.send('You are a user');
-    }else {
-      res.send("Invalid username or password. <a href="/">Try again</a>');");
-    }
+    res.sendFile(path.join(__dirname, '1', 'user-dashboard.html'));
   
   }catch (err){
     console.error("Error querying database:", err);
