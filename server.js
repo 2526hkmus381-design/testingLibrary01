@@ -16,7 +16,7 @@ app.use(bodyParser.urlencoded({ extended: true }));  // for form data
 app.use(bodyParser.json());
 
 // Connect to MongoDB
-mongoose.connect(uri, , {
+mongoose.connect(uri,{
       dbName="testingLibrary"
     }
                  )
