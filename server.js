@@ -144,14 +144,8 @@ app.post('/login', async (req, res) => {
 
 // Server user dashboard
 app.get('/user-dashboard', (req, res) => {
-    try {
-    const discoverBooks = await Book.find().limit(5); // Limit to 5 books
-    res.render('user-dashboard', { discoverBooks }); // Pass books to EJS template
-  } catch (err) {
-    console.error('Error fetching books:', err);
-    res.status(500).send('Server error');
-  }
-    //res.sendFile(path.join(__dirname, '1', 'user-dashboard.html'));
+    
+    res.sendFile(path.join(__dirname, '1', 'user-dashboard.html'));
 });
 
 // Server admin dashboard
