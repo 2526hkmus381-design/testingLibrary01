@@ -85,6 +85,20 @@ async function initializeUsers() {
     }
 }
 
+async function printAllUser() {
+  try{
+    const documents = await User.find({});
+    console.log("All the documents in the userCollection: ");
+    User.forEach(doc => {
+      console.log(doc.toJSON());
+    });
+  } catch (error) {
+    console.error("Error in retrieving documents: ", error);
+  }
+}
+
+printAllUser();
+
 // Server main page
 //app.get('/', (req, res) => {
 //    res.sendFile(path.join(__dirname, '1', 'index.html'));
@@ -106,7 +120,7 @@ app.post('/login', async (req, res) => {
   console.log("the password is "+ password);
   try {
     //await console.log(User.findOne({}));
-    const user = await User.findOne({ username:username });
+    var user = await User.findOne({ username:username });
     //console.log(user.username)
     if (!user) {
       return res.status(401).send('Invalid username or password. <a href="/">Try again</a>');
