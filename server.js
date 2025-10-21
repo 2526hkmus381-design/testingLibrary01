@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 
 // Connect to MongoDB
 mongoose.connect(uri,{
-      dbName="testingLibrary"
+      dbName:"testingLibrary"
     }
                  )
   .then(() => console.log("Connected to MongoDB Atlas"))
