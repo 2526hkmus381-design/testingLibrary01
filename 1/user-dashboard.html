@@ -214,7 +214,7 @@
 
         // Load default content on page load (e.g., discover.html)
         window.onload = function() {
-            loadContent('discover.html');
+            loadContent('user_discover.html');
         };
     </script>
 </head>
@@ -223,18 +223,18 @@
     <nav id="sidebar">
         <div id="sidebar-header">Logo / Title</div> <!-- Customize this area -->
         <div id="sidebar-content">
-    <a href="#" class="nav-link" onclick="loadContent('discover.html'); return false;">
+    <a href="#" class="nav-link" onclick="loadContent('user_discover.html'); return false;">
         <i class="fi fi-rr-home"></i>
         <i class="fi fi-sr-home hover-icon"></i>
         
         <span>Discover</span>
     </a>
-    <a href="#" class="nav-link" onclick="loadContent('mybooks.html'); return false;">
+    <a href="#" class="nav-link" onclick="loadContent('user_mybooks.html'); return false;">
         <i class="fi fi-rr-book"></i>
         <i class="fi fi-rr-book hover-icon"></i>
         <span>My books</span>
     </a>
-    <a href="#" class="nav-link" onclick="loadContent('section3.html'); return false;">
+    <a href="#" class="nav-link" onclick="loadContent('user_section3.html'); return false;">
         <i class="fi fi-rr-apps"></i>
         <i class="fi fi-rr-apps hover-icon"></i>
         <span>Section 3</span>
@@ -258,7 +258,8 @@
     
     <!-- Main content wrapper - Now uses iframe to load external HTML files -->
     <div id="main-content">
-        <iframe id="content-frame" src="discover.html"></iframe>
+        <iframe id="content-frame" src="user_discover.html"></iframe>
     </div>
 </body>
 </html>
+
