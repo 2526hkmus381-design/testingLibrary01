@@ -146,7 +146,7 @@ app.get('/user-dashboard', (req, res) => {
 });
 
 // Server admin dashboard
-app.get('/librarian-dashboard', (req, res) => {
+app.get('/admin-dashboard', (req, res) => {
     res.sendFile(path.join(__dirname, '1', 'admin-dashboard.html'));
 });
 
