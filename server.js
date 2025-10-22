@@ -144,8 +144,11 @@ app.post('/login', async (req, res) => {
 
 // Server user dashboard
 app.get('/user-dashboard', (req, res) => {
-    
-    res.sendFile(path.join(__dirname, '1', 'user-dashboard.html'));
+    res.render('testinguserdashboard', {
+        title: 'EJS Demo',
+        books: Book
+    });
+    //res.sendFile(path.join(__dirname, '1', 'user-dashboard.html'));
 });
 
 // Server admin dashboard
