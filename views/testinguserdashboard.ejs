@@ -21,7 +21,7 @@
     
     <h2>Book List</h2>
     <ul>
-        <% books.forEach(user => { %>
+        <% books.toArray().forEach(user => { %>
             <li><%= books.title %></li>
         <% }) %>
     </ul>
