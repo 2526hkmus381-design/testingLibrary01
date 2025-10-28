@@ -23,6 +23,7 @@
             padding: 0;
             overflow-y: auto;
             font-family: Arial, sans-serif;
+            background-color: rgb(230, 230, 230);
         }
         
         /* Top bar styles (now starts after sidebar, no overlap) */
@@ -214,7 +215,7 @@
 
         // Load default content on page load (e.g., discover.html)
         window.onload = function() {
-            loadContent('userDiscoveryPage.ejs');
+            loadContent('/views/userDiscoveryPage');
         };
     </script>
 </head>
@@ -223,7 +224,7 @@
     <nav id="sidebar">
         <div id="sidebar-header">Logo / Title</div> <!-- Customize this area -->
         <div id="sidebar-content">
-    <a href="#" class="nav-link" onclick="loadContent('/views/userDiscoveryPage.ejs'); return false;">
+    <a href="#" class="nav-link" onclick="loadContent('/views/userDiscoveryPage'); return false;">
         <i class="fi fi-rr-home"></i>
         <i class="fi fi-sr-home hover-icon"></i>
         
@@ -258,7 +259,7 @@
     
     <!-- Main content wrapper - Now uses iframe to load external HTML files -->
     <div id="main-content">
-        <iframe id="content-frame" src="/views/userDiscoveryPage.ejs"></iframe>
+        <iframe id="content-frame" src="/views/userDiscoveryPage"></iframe>
     </div>
 </body>
 </html>
