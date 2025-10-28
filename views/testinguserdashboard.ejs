@@ -3,26 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Basic EJS Example</title>
+    <title>User Dashboard - Library Management</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 50px;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
         }
         h1 {
+            text-align: center;
             color: #333;
+        }
+        .book-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .book-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .book-table th, .book-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .book-table th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .book-table tr:hover {
+            background-color: #f5f5f5;
+        }
+        .no-books {
+            text-align: center;
+            padding: 20px;
+            color: #666;
         }
     </style>
 </head>
 <body>
-    <h1>Welcome to <%= title %></h1>
-    <p>Current time: <%= new Date().toLocaleTimeString() %></p>
-    
-    <h2>Book List</h2>
-    <p>myVariable is of type: <%= books.findOne({set${title:"Atomic Habits"}}) %></p>
-    <ul>
-        
-    </ul>
+    <h1>User Dashboard - Available Books</h1>
+    <div class="book-container">
+        <% if (books && books.length > 0) { %>
+            <table class="book-table">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>ISBN</th>
+                        <th>Genre</th>
+                        <th>Published Year</th>
+                        <th>Available Copies</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% books.forEach(book => { %>
+                        <tr>
+                            <td><%= book.title %></td>
+                            <td><%= book.author %></td>
+                            <td><%= book.isbn %></td>
+                            <td><%= book.genre %></td>
+                            <td><%= book.publishedYear %></td>
+                            <td><%= book.availableCopies %> / <%= book.totalCopies %></td>
+                            <td><%= book.description %></td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        <% } else { %>
+            <p class="no-books">No books available in the library.</p>
+        <% } %>
+    </div>
 </body>
 </html>
