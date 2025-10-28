@@ -144,10 +144,17 @@ app.post('/login', async (req, res) => {
 
 // Server user dashboard
 app.get('/user-dashboard', (req, res) => {
-    res.render('testinguserdashboard', {
+    try{
+          res.render('testinguserdashboard', {
         title: 'EJS Demo',
         books: Book
     });
+    }catch(err){
+      console.error("Error when rendering testinguserdashboard: ", err);
+      res.status(500).send("Server error: ",err);
+    }
+
+    
     //res.sendFile(path.join(__dirname, '1', 'user-dashboard.html'));
 });
 
