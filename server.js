@@ -161,10 +161,26 @@ app.get('/user-dashboard', async (req, res) => {
     }
 });
 
+app.get('/views/userDiscoveryPage', async (req, res) => {
+    try {
+        const books = await Book.find({}).lean(); // Fetch all books and convert to plain JS objects
+        console.log('Books fetched:', books); // Debug log to verify data
+        res.render('userDiscoveryPage', {
+            title: 'User DiscoveryPage',
+            books: Array.isArray(books) ? books : [] // Ensure books is always an array
+        });
+    } catch (err) {
+        console.error('Error fetching books:', err);
+        
+    }
+});
+
 // Server admin dashboard
 app.get('/admin-dashboard', (req, res) => {
     res.sendFile(path.join(__dirname, '1', 'admin-dashboard.html'));
 });
+
+
 
 app.listen(port, () => {
   console.log(`*`)
