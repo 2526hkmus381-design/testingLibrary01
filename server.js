@@ -143,19 +143,22 @@ app.post('/login', async (req, res) => {
 });
 
 // Server user dashboard
-app.get('/user-dashboard', (req, res) => {
-    try{
-          res.render('testinguserdashboard', {
-        title: 'EJS Demo',
-        books: Book
-    });
-    }catch(err){
-      console.error("Error when rendering testinguserdashboard: ", err);
-      res.status(500).send("Server error: ",err);
+app.get('/user-dashboard', async (req, res) => {
+    try {
+        const books = await Book.find({}).lean(); // Fetch all books and convert to plain JS objects
+        console.log('Books fetched:', books); // Debug log to verify data
+        res.render('testinguserdashboard', {
+            title: 'User Dashboard',
+            books: Array.isArray(books) ? books : [] // Ensure books is always an array
+        });
+    } catch (err) {
+        console.error('Error fetching books:', err);
+        res.render('testinguserdashboard', {
+            title: 'User Dashboard',
+            books: [], // Send empty array on error
+            error: 'Failed to load books. Please try again later.'
+        });
     }
-
-    
-    //res.sendFile(path.join(__dirname, '1', 'user-dashboard.html'));
 });
 
 // Server admin dashboard
