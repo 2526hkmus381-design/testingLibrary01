@@ -1,198 +1,23 @@
 const uri = "mongodb+srv://renderDeploy:renderDeploy@cluster0.nuoxsbu.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 const express = require('express');
 const bodyParser = require('body-parser');
-//const client = new MongoClient(uri);
-
-//const userCollection = "userCollection";
 const path = require('path');
 const mongoose = require('mongoose');
-const app = express();<!-- views/bookDetails.ejs -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book Details</title>
-    <!-- Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <!-- Inter font from Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            margin: 0;
-            padding: 20px;
-            font-family: 'Inter', sans-serif;
-            background-color: #f8f8f8;
-            color: #333;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        h1 {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 20px;
-            color: #333;
-            text-align: center;
-        }
-
-        .book-card {
-            background-color: #ffffff;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            max-width: 600px;
-            width: 100%;
-            box-sizing: border-box;
-            margin: 0 auto;
-        }
-
-        .book-card h2 {
-            font-size: 22px;
-            font-weight: 700;
-            margin-bottom: 15px;
-            color: #333;
-        }
-
-        .book-card p {
-            font-size: 16px;
-            color: #666;
-            margin: 10px 0;
-        }
-
-        .book-card .available {
-            color: #28a745;
-            font-weight: bold;
-        }
-
-        .book-card .unavailable {
-            color: #dc3545;
-            font-weight: bold;
-        }
-
-        .reserve-button {
-            background-color: #28a745;
-            color: #ffffff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            margin-top: 20px;
-            display: inline-block;
-            width: 100%;
-            text-align: center;
-        }
-
-        .reserve-button:hover {
-            background-color: #218838;
-        }
-
-        .reserve-button:disabled {
-            background-color: #6c757d;
-            cursor: not-allowed;
-        }
-
-        .error-message {
-            color: #dc3545;
-            font-size: 16px;
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .back-link {
-            display: inline-block;
-            margin-top: 20px;
-            font-size: 16px;
-            color: #007bff;
-            text-decoration: none;
-            text-align: center;
-        }
-
-        .back-link:hover {
-            text-decoration: underline;
-        }
-
-        @media (max-width: 768px) {
-            .book-card {
-                padding: 15px;
-            }
-
-            h1 {
-                font-size: 20px;
-            }
-
-            .book-card h2 {
-                font-size: 18px;
-            }
-
-            .book-card p {
-                font-size: 14px;
-            }
-
-            .reserve-button {
-                padding: 8px 16px;
-                font-size: 14px;
-            }
-        }
-    </style>
-</head>
-<body>
-    <h1>Book Details</h1>
-
-    <% if (typeof book !== 'undefined' && book && book._id) { %>
-        <div class="book-card">
-            <h2><%= book.title || 'Untitled' %></h2>
-            <p><strong>Author:</strong> <%= book.author || 'Unknown' %></p>
-            <p><strong>ISBN:</strong> <%= book.isbn || 'N/A' %></p>
-            <p><strong>Genre:</strong> <%= book.genre || 'N/A' %></p>
-            <p><strong>Published Year:</strong> <%= book.publishedYear || 'N/A' %></p>
-            <p><strong>Available Copies:</strong> 
-                <span class="<%= (book.availableCopies || 0) > 0 ? 'available' : 'unavailable' %>">
-                    <%= book.availableCopies || 0 %> / <%= book.totalCopies || 0 %>
-                </span>
-            </p>
-            <p><strong>Description:</strong> <%= book.description || 'No description available' %></p>
-            <form action="/reserve-book/<%= book._id %>" method="POST">
-                <button type="submit" class="reserve-button" <%= (book.availableCopies || 0) === 0 ? 'disabled' : '' %>>
-                    Reserve Book
-                </button>
-            </form>
-            <a href="/views/user_DiscoveryPage" class="back-link">Back to Discover Books</a>
-        </div>
-    <% } else { %>
-        <p class="error-message">Book not found.</p>
-        <a href="/views/user_DiscoveryPage" class="back-link">Back to Discover Books</a>
-    <% } %>
-
-    <% if (typeof error !== 'undefined' && error) { %>
-        <p class="error-message"><%= error %></p>
-    <% } %>
-</body>
-</html>
+const app = express();
 const port = process.env.PORT || 8099;
-let db; ///NEW
 
-app.set('view engine','ejs');
+app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, '1')));
 
-app.use(bodyParser.urlencoded({ extended: true }));  // for form data
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-
 // Connect to MongoDB
-mongoose.connect(uri,{
-      dbName:"test"
-    }
-                 )
-  .then(() => console.log("Connected to MongoDB Atlas"))
-  .catch((err) => console.error("Error connecting to MongoDB Atlas:", err));
-
-
-
+mongoose.connect(uri, {
+    dbName: "test"
+})
+.then(() => console.log("Connected to MongoDB Atlas"))
+.catch((err) => console.error("Error connecting to MongoDB Atlas:", err));
 
 // User Schema
 const userSchema = new mongoose.Schema({
@@ -258,86 +83,240 @@ async function initializeUsers() {
 }
 
 async function printAllUser() {
-  try{
-    const documents = await User.find({});
-    console.log("All the documents in the userCollection: ");
-    documents.forEach(doc => {
-      console.log(doc.toJSON());
-    });
-  } catch (error) {
-    console.error("Error in retrieving documents: ", error);
-  }
+    try {
+        const documents = await User.find({});
+        console.log("All the documents in the userCollection: ");
+        documents.forEach(doc => {
+            console.log(doc.toJSON());
+        });
+    } catch (error) {
+        console.error("Error in retrieving documents: ", error);
+    }
 }
 
 printAllUser();
 
-// Server main page
-//app.get('/', (req, res) => {
-//    res.sendFile(path.join(__dirname, '1', 'index.html'));
-//});
-
-// Server login page
-//app.get('/', (req, res) => {
- // res.sendFile(path.join(__dirname, '1', 'user-dashboard.html'));
-//});
-
 // Server login page
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 app.post('/login', async (req, res) => {
-  const { username, password } = req.body;
-  console.log("The username is "+ username);
-  console.log("the password is "+ password);
-  try {
-    //await console.log(User.findOne({}));
-    var user = await User.findOne({ username:username });
-    //console.log(user.username)
-    if (!user) {
-      return res.status(401).send('Invalid username or password. <a href="/">Try again</a>');
+    const { username, password } = req.body;
+    console.log("The username is " + username);
+    console.log("the password is " + password);
+    try {
+        const user = await User.findOne({ username: username });
+        if (!user) {
+            return res.status(401).send('Invalid username or password. <a href="/">Try again</a>');
+        }
+        if (user.role === 'admin') {
+            return res.redirect('/admin-dashboard');
+        }
+        return res.redirect('/user-dashboard');
+    } catch (err) {
+        console.error('Error during login:', err);
+        res.status(500).send('Server error');
     }
-    
-    if (user.role === 'admin') {
-      return res.redirect('/admin-dashboard');
-    }
-    return res.redirect('/user-dashboard');
-  } catch (err) {
-    console.error('Error during login:', err);
-    res.status(500).send('Server error');
-  }
 });
 
 // Server user dashboard
 app.get('/user-dashboard', async (req, res) => {
     try {
-        const books = await Book.find({}).lean(); // Fetch all books and convert to plain JS objects
-        console.log('Books fetched:', books); // Debug log to verify data
-        res.render('user_dashboard', {
+        const books = await Book.find({}).lean();
+        console.log('Books fetched:', books);
+        res.render('userDashboard', {
             title: 'User Dashboard',
-            books: Array.isArray(books) ? books : [] // Ensure books is always an array
+            books: Array.isArray(books) ? books : []
         });
     } catch (err) {
         console.error('Error fetching books:', err);
-        res.render('user_dashboard', {
+        res.render('userDashboard', {
             title: 'User Dashboard',
-            books: [], // Send empty array on error
+            books: [],
             error: 'Failed to load books. Please try again later.'
         });
     }
 });
 
-app.get('/views/user_DiscoveryPage', async (req, res) => {
+// Server book discovery page
+app.get('/views/userDiscoveryPage', async (req, res) => {
     try {
-        const books = await Book.find({}).lean(); // Fetch all books and convert to plain JS objects
-        console.log('Books fetched:', books); // Debug log to verify data
-        res.render('user_DiscoveryPage', {
+        const books = await Book.find({}).lean();
+        console.log('Books fetched:', books);
+        res.render('userDiscoveryPage', {
             title: 'User DiscoveryPage',
-            books: Array.isArray(books) ? books : [] // Ensure books is always an array
+            books: Array.isArray(books) ? books : []
         });
     } catch (err) {
         console.error('Error fetching books:', err);
-        
+        res.render('userDiscoveryPage', {
+            title: 'User DiscoveryPage',
+            books: [],
+            error: 'Failed to load books. Please try again later.'
+        });
+    }
+});
+
+app.get('/views/userGenrePage', async (req, res) => {
+    try {
+        const books = await Book.find({}).lean();
+        const genres = await Book.distinct('genre');
+        console.log('Books fetched:', books);
+        res.render('userGenrePage', {
+            title: 'User genrePage',
+            books: Array.isArray(books) ? books : [],
+            genres:Array.isArray(genres)? genres :[]
+        });
+    } catch (err) {
+        console.error('Error fetching books:', err);
+        res.render('userGenrePage', {
+            title: 'User GenrePage',
+            books: [],
+            error: 'Failed to load books. Please try again later.'
+        });
+    }
+});
+
+// API: Get books by genre (or all if "all")
+app.get('/api/books/genre/:genre', async (req, res) => {
+  try {
+    const genre = req.params.genre;
+    let query = {};
+
+    if (genre !== 'all') {
+      query.genre = genre;
+    }
+
+    const books = await Book.find(query).lean();
+    res.json(books);
+  } catch (err) {
+    console.error('Error fetching books by genre:', err);
+    res.status(500).json({ error: 'Failed to fetch books' });
+  }
+});
+
+// server.js
+// POST /api/books/filter – AND filter across multiple genres
+app.post('/api/books/filter', async (req, res) => {
+  try {
+    const { genres = [] } = req.body;
+
+    let query = {};
+    if (genres.length > 0) {
+      // Use $all to require ALL selected genres
+      query.genre = { $all: genres };
+    }
+
+    const books = await Book.find(query).lean();
+    res.json(books);
+  } catch (err) {
+    console.error('Error in /api/books/filter:', err);
+    res.status(500).json({ error: 'Failed to filter books' });
+  }
+});
+
+app.get('/views/userBookPage', async (req, res) => {
+    try {
+        const rbooks = await Borrow.find({}).lean();
+        const bbooks = await Book.find({}).lean();
+        console.log('Books fetched:', books);
+        res.render('userBookPage', {
+            title: 'User bookPage',
+            borrowedbooks: Array.isArray(bbooks) ? bbooks : [],
+            reservedbooks: Array.isArray(rbooks) ? rbooks : []
+        });
+    } catch (err) {
+        console.error('Error fetching books:', err);
+        res.render('userBookPage', {
+            title: 'User BookPage',
+            books: [],
+            error: 'Failed to load books. Please try again later.'
+        });
+    }
+});
+
+// Server book details page
+app.get('/book-details/:id', async (req, res) => {
+    try {
+        const book = await Book.findById(req.params.id).lean();
+        if (!book) {
+            return res.render('bookDetails', {
+                title: 'Book Details',
+                book: null,
+                error: 'Book not found.'
+            });
+        }
+        res.render('bookDetails', {
+            title: 'Book Details',
+            book: book
+        });
+    } catch (err) {
+        console.error('Error fetching book:', err);
+        res.render('bookDetails', {
+            title: 'Book Details',
+            book: null,
+            error: 'Failed to load book details. Please try again later.'
+        });
+    }
+});
+
+// Server reserve book
+app.post('/reserve-book/:id', async (req, res) => {
+    try {
+        const book = await Book.findById(req.params.id);
+        if (!book) {
+            return res.render('bookDetails', {
+                title: 'Book Details',
+                book: null,
+                error: 'Book not found.'
+            });
+        }
+        if (book.availableCopies <= 0) {
+            return res.render('bookDetails', {
+                title: 'Book Details',
+                book: book,
+                error: 'No copies available to reserve.'
+            });
+        }
+
+        // Placeholder: Assume user is 'john' (replace with session-based user in production)
+        const user = await User.findOne({ username: 'john' });
+        if (!user) {
+            return res.render('bookDetails', {
+                title: 'Book Details',
+                book: book,
+                error: 'User not found. Please log in.'
+            });
+        }
+
+        // Create borrow record
+        await Borrow.create({
+            userId: user._id,
+            username: user.username,
+            bookId: book._id,
+            bookTitle: book.title,
+            borrowDate: new Date(),
+            status: 'borrowed'
+        });
+
+        // Decrease available copies
+        book.availableCopies -= 1;
+        await book.save();
+
+        // Redirect back to book details with success message
+        res.render('bookDetails', {
+            title: 'Book Details',
+            book: book,
+            error: 'Book reserved successfully!'
+        });
+    } catch (err) {
+        console.error('Error reserving book:', err);
+        res.render('bookDetails', {
+            title: 'Book Details',
+            book: book,
+            error: 'Failed to reserve book. Please try again later.'
+        });
     }
 });
 
@@ -346,9 +325,40 @@ app.get('/admin-dashboard', (req, res) => {
     res.sendFile(path.join(__dirname, '1', 'admin-dashboard.html'));
 });
 
-
+// Server book details page
+app.get('/book-details/:id', async (req, res) => {
+    try {
+        // Validate ObjectId
+        if (!Types.ObjectId.isValid(req.params.id)) {
+            return res.render('bookDetails', {
+                title: 'Book Details',
+                book: null,
+                error: 'Invalid book ID.'
+            });
+        }
+        const book = await Book.findById(req.params.id).lean();
+        if (!book) {
+            return res.render('bookDetails', {
+                title: 'Book Details',
+                book: null,
+                error: 'Book not found.'
+            });
+        }
+        console.log('Book fetched:', book); // Debug log
+        res.render('bookDetails', {
+            title: 'Book Details',
+            book: book
+        });
+    } catch (err) {
+        console.error('Error fetching book:', err);
+        res.render('bookDetails', {
+            title: 'Book Details',
+            book: null,
+            error: 'Failed to load book details. Please try again later.'
+        });
+    }
+});
 
 app.listen(port, () => {
-  console.log(`*`)
-})
-
+    console.log(`Server running on port ${port}`);
+});
