@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Multi-Genre Filter</title>
+
+  <!-- Keep the chip styles you already love -->
+  <style>
+    .chip {
+      display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px;
+      font: 500 0.875rem/1.4 system-ui, sans-serif; color: #222; background: #eaeaea;
+      border-radius: 9999px; white-space: nowrap; border: none; cursor: pointer;
+      transition: background .2s, transform .1s;
+    }
+    .chip:hover   { background: #d4d4d4; }
+    .chip:active  { transform: scale(0.96); }
+    .chip.selected { background:#ffb74d; color:#fff; }
+
+    #genre-filters { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:1.5rem; }
+    #book-list     { display:grid; gap:1rem; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); }
+    .book-card     { background:#fff; padding:1rem; border-radius:8px; box-shadow:0 1px 3px rgba(0,0,0,.1); }
+    .book-card h3  { margin:0 0 .5rem; }
+    .book-card a   { color:#1976d2; text-decoration:none; }
+    .book-card a:hover { text-decoration:underline; }
+    .loading       { text-align:center; padding:2rem; color:#666; }
+  </style>
+</head>
+<body>
+
+  <!-- GENRE CHIPS (multi-select) -->
+  <div id="genre-filters">
+    <% genres.forEach(g => { %>
+      <button class="chip" data-genre="<%= g %>"><%= g %></button>
+    <% }); %>
+  </div>
+
+  <!-- BOOK LIST (filled by JS) -->
+  <div id="book-list">
+    <div class="loading">Loading books…</div>
+  </div>
+
+  <script>
+    // -----------------------------------------------------------------
+    // 1. Cache DOM + state
+    // -----------------------------------------------------------------
+    const chipContainer = document.getElementById('genre-filters');
+    const bookList      = document.getElementById('book-list');
+    const chips         = chipContainer.querySelectorAll('.chip');
+
+    let allBooks = [];               // will hold every book once
+    let selectedGenres = new Set();  // Set of active genre strings
+
+    // -----------------------------------------------------------------
+    // 2. Helper: render books that match *all* selected genres
+    // -----------------------------------------------------------------
+    async function renderFilteredBooks() {
+      try {
+        // Show loading state
+        bookList.innerHTML = '<div class="loading">Filtering books…</div>';
+
+        // Send selected genres to server
+        const response = await fetch('/api/books/filter', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ genres: Array.from(selectedGenres) })
+        });
+
+        const books = await response.json();
+
+        if (!Array.isArray(books) || books.length === 0) {
+          bookList.innerHTML = '<p>No books match <strong>all</strong> selected genres.</p>';
+          return;
+        }
+
+        // Render the filtered books
+        bookList.innerHTML = books.map(renderCard).join('');
+      } catch (err) {
+        console.error('Filter error:', err);
+        bookList.innerHTML = '<p style="color:red;">Failed to filter books.</p>';
+      }
+    }
+
+    function renderCard(book) {
+      return `
+        <div class="book-card">
+          <h3>${esc(book.title)}</h3>
+          <p><strong>Author:</strong> ${esc(book.author)}</p>
+          <p><strong>Genre:</strong> ${esc(book.genre)}</p>
+          <p><strong>Year:</strong> ${book.publishedYear}</p>
+          <a href="/book-details/${book._id}">View Details</a>
+        </div>`;
+    }
+
+    function esc(str) {
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    // -----------------------------------------------------------------
+    // 3. Load *all* books once (client-side filtering)
+    // -----------------------------------------------------------------
+    async function loadAllBooks() {
+      try {
+        bookList.innerHTML = '<div class="loading">Loading books…</div>';
+        const res = await fetch('/api/books/genre/all');
+        allBooks = await res.json();
+
+        if (!Array.isArray(allBooks) || allBooks.length === 0) {
+          bookList.innerHTML = '<p>No books in the library.</p>';
+          return;
+        }
+
+        renderFilteredBooks();   // initially show everything
+      } catch (e) {
+        console.error(e);
+        bookList.innerHTML = '<p style="color:red;">Failed to load books.</p>';
+      }
+    }
+
+    // -----------------------------------------------------------------
+    // 4. Chip click → toggle selection + re-filter
+    // -----------------------------------------------------------------
+    chips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        const genre = chip.dataset.genre;
+
+        if (selectedGenres.has(genre)) {
+          selectedGenres.delete(genre);
+          chip.classList.remove('selected');
+        } else {
+          selectedGenres.add(genre);
+          chip.classList.add('selected');
+        }
+
+        renderFilteredBooks();
+      });
+    });
+
+    // -----------------------------------------------------------------
+    // 5. Initialise
+    // -----------------------------------------------------------------
+    loadAllBooks();
+  </script>
+</body>
+</html>
