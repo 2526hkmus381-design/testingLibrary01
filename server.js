@@ -323,9 +323,9 @@ app.post('/reserve-book/:id', async (req, res) => {
 // Server admin dashboard
 app.get('/admin-dashboard', (req, res) => {
      try {
-        const books = await Book.find({}).lean();
+        /*const books = await Book.find({}).lean();
         const users = await User.find({}).lean();
-        const borrows = await Borrow.find({}).lean();
+        const borrows = await Borrow.find({}).lean();*/
         
         res.render('adminDashboard', {
             title: 'Admin Dashboard',
