@@ -322,7 +322,78 @@ app.post('/reserve-book/:id', async (req, res) => {
 
 // Server admin dashboard
 app.get('/admin-dashboard', (req, res) => {
-    res.sendFile(path.join(__dirname, '1', 'admin-dashboard.html'));
+     try {
+        const books = await Book.find({}).lean();
+        const users = await User.find({}).lean();
+        const borrows = await Borrow.find({}).lean();
+        
+        res.render('adminDashboard', {
+            title: 'Admin Dashboard',
+            books: books,
+            users: users,
+            borrows: borrows
+        });
+    } catch (err) {
+        console.error('Error loading admin dashboard:', err);
+        res.render('adminDashboard', {
+            title: 'Admin Dashboard',
+            books: [],
+            users: [],
+            borrows: [],
+            error: 'Failed to load dashboard data.'
+        });
+    }
+});
+
+app.get('/api/admin/books', async (req, res) => {
+    try {
+        const books = await Book.find({}).lean();
+        res.json(books);
+    } catch (err) {
+        console.error('Error fetching books:', err);
+        res.status(500).json({ error: 'Failed to fetch books' });
+    }
+});
+
+app.post('/api/admin/books', async (req, res) => {
+    try {
+        const book = new Book(req.body);
+        await book.save();
+        res.status(201).json(book);
+    } catch (err) {
+        console.error('Error creating book:', err);
+        res.status(500).json({ error: 'Failed to create book' });
+    }
+});
+
+app.put('/api/admin/books/:id', async (req, res) => {
+    try {
+        const book = await Book.findByIdAndUpdate(
+            req.params.id, 
+            req.body, 
+            { new: true, runValidators: true }
+        );
+        if (!book) {
+            return res.status(404).json({ error: 'Book not found' });
+        }
+        res.json(book);
+    } catch (err) {
+        console.error('Error updating book:', err);
+        res.status(500).json({ error: 'Failed to update book' });
+    }
+});
+
+app.delete('/api/admin/books/:id', async (req, res) => {
+    try {
+        const book = await Book.findByIdAndDelete(req.params.id);
+        if (!book) {
+            return res.status(404).json({ error: 'Book not found' });
+        }
+        res.json({ message: 'Book deleted successfully' });
+    } catch (err) {
+        console.error('Error deleting book:', err);
+        res.status(500).json({ error: 'Failed to delete book' });
+    }
 });
 
 // Server book details page
