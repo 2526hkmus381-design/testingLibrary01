@@ -1,14 +1,14 @@
 {
     "name": "lib-test",
     "description": "lib-test",
-    "author": "",
+    "author": "", 
     "version": "0.0.1",
     "dependencies": {
-        "body-parser": "*",
-        "ejs": "*",
-        "express": "^5.1.0",
-        "mongoose": "*",
-        "node": "*"
+        "node": "*",
+        "express": "*",
+        "mongoose":"*",
+        "body-parser":"*",
+        "ejs":"*"
     },
     "engine": "*",
     "scripts": {
