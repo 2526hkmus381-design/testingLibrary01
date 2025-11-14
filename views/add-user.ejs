@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Add User</title>
+  <style>
+    form { width: 400px; margin: 40px auto; }
+    label { display: block; margin-top: 10px; }
+    input, select {
+      width: 100%; padding: 8px; margin-top: 5px;
+    }
+    button {
+      margin-top: 15px; padding: 10px 15px;
+      background-color: #007bff; color: white; border: none;
+      cursor: pointer;
+    }
+    button:hover { background-color: #0056b3; }
+  </style>
+</head>
+<body>
+  <h2 style="text-align:center;">Add New User</h2>
+  <form action="/add-user" method="POST">
+    <label>Name</label>
+    <input type="text" name="name" required>
+
+    <label>Username</label>
+    <input type="text" name="username" required>
+
+    <label>Password</label>
+    <input type="password" name="password" required>
+
+    <label>Phone Number</label>
+    <input type="text" name="phone" required>
+
+    <label>Email</label>
+    <input type="email" name="email" required>
+
+    <label>Role</label>
+    <select name="role" required>
+      <option value="user">User</option>
+      <option value="admin">Admin</option>
+    </select>
+
+    <button type="submit">Add User</button>
+  </form>
+</body>
+</html>
