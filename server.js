@@ -23,9 +23,14 @@ mongoose.connect(uri, {
 const userSchema = new mongoose.Schema({
     username: String,
     password: String,
-    role: String,
-    name: String
+    phone: String,
+    email: String,
+    name: String,
+    role: { type: String, enum: ['admin', 'user'] }
+    
 });
+
+module.exports = mongoose.model('User', userSchema);
 
 const User = mongoose.model('users', userSchema);
 
@@ -95,6 +100,25 @@ async function printAllUser() {
 }
 
 printAllUser();
+//GET USERS
+app.get('/users', async (req, res) => {
+  const users = await User.find();
+  res.render('users', { users });
+});
+//ADD USERS
+app.get('/add-user', (req, res) => {
+  res.render('add-user');
+});
+
+app.post('/add-user', express.urlencoded({ extended: true }), async (req, res) => {
+  const { name, username, password, phone, email, role } = req.body;
+  try {
+    await User.create({ name, username, password, phone, email, role });
+    res.redirect('/users');
+  } catch (err) {
+    res.status(500).send('Error adding user');
+  }
+});
 
 // Server login page
 app.get('/', (req, res) => {
